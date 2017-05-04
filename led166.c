@@ -59,9 +59,9 @@ int close_file(struct file *fp) {
 int turn_on_led(void) {
     struct file *fp;
 
-    fp = open_file("/sys/class/gpio/export", O_WRONLY, 0);
+    /*fp = open_file("/sys/class/gpio/export", O_WRONLY, 0);
     write_file(fp, GPIO_NUMBER, GPIO_NUMBER_LEN);
-    close_file(fp);
+    close_file(fp);*/
 
     fp = open_file("/sys/class/gpio/gpio166/direction", O_WRONLY, 0);
     write_file(fp, "out", 3);
@@ -81,9 +81,9 @@ int turn_off_led(void) {
     write_file(fp, "0", 1);
     close_file(fp);
 
-    fp = open_file("/sys/class/gpio/unexport", O_WRONLY, 0);
+    /*fp = open_file("/sys/class/gpio/unexport", O_WRONLY, 0);
     write_file(fp, GPIO_NUMBER, GPIO_NUMBER_LEN);
-    close_file(fp);
+    close_file(fp);*/
 
     return 1;
 }

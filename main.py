@@ -42,10 +42,10 @@ def turn_led(on_off=True):
     try:
         led = int(input())
         if led > MAX_LED_OPTIONS:
-            raise Exception()
+            raise ValueError()
     except KeyboardInterrupt:
         exit()
-    except:
+    except ValueError:
         print('Invalid command.')
         return
 
@@ -62,7 +62,7 @@ def do_turn_led(number, state=True):
             with open(leds[number], 'w') as f:
                 f.write('0')
 
-def check_led_state(number):
+def check_led_status():
     print()
     print('Which led do you want to check')
 
@@ -70,19 +70,20 @@ def check_led_state(number):
     try:
         led = int(input())
         if led > MAX_LED_OPTIONS:
-            raise Exception()
+            raise ValueError()
     except KeyboardInterrupt:
         exit()
-    except:
+    except ValueError:
         print('Invalid command.')
         return
-    
-    with open(leds[number], 'r') as f:
-        state = f.read()
-    if state == '1':
-        print('Led is on')
-    else:
-        print('Led is off')
+   
+    #print(leds[led]) 
+    with open(leds[led], 'r') as f:
+        state = f.readline().strip()
+        if state == '1':
+            print('Led is on')
+        else:
+            print('Led is off')
 
 
 def marquee():
@@ -108,7 +109,7 @@ def marquee():
             try:
                 while True:
                     for index, status in enumerate(status_list[counter]):
-                        do_turn_led(index+1, status == '1')
+                        do_turn_led(index+1, state=(status == '1'))
                     counter = (counter + 1) % len(status_list)
                     time.sleep(interval)
             except KeyboardInterrupt:
@@ -119,25 +120,25 @@ def marquee():
             print('Invalid command.')
 
 def main():
-    MAX_MENU_OPTIONS = 3
+    MAX_MENU_OPTIONS = 4
 
     while True:
         show_menu()
         try:
             option = int(input())
             if option > MAX_MENU_OPTIONS:
-                raise Exception()
+                raise ValueError()
         except KeyboardInterrupt:
             exit()
-        except:
+        except ValueError:
             print('Invalid command.')
             continue
         
         if 1 <= option <= 2:
             turn_led(True if option == 1 else False)
-        elif 3:
-
-        elif 4:
+        elif option == 3:
+            check_led_status()
+        elif option == 4:
             marquee()
 
 

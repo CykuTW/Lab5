@@ -1,6 +1,8 @@
 obj-m := led163.o led164.o led165.o led166.o
-KERNEL_DIR := /usr/lib/modules/$(shell uname -r)/build
+KERNEL_DIR := /usr/src/linux-headers-$(shell uname -r)
 PREFIX := 
+EXPORT := /sys/class/gpio/export
+UNEXPORT := /sys/class/gpio/unexport
 
 PWD := $(shell pwd)
 all:
@@ -20,6 +22,10 @@ install:
 	sudo chmod 666 /dev/led164
 	sudo chmod 666 /dev/led165
 	sudo chmod 666 /dev/led166
+	sudo echo 163 > $(EXPORT)
+	sudo echo 164 > $(EXPORT)
+	sudo echo 165 > $(EXPORT)
+	sudo echo 166 > $(EXPORT)
 uninstall:
 	sudo rmmod led163
 	sudo rmmod led164
@@ -29,4 +35,8 @@ uninstall:
 	sudo rm /dev/led164
 	sudo rm /dev/led165
 	sudo rm /dev/led166
+	sudo echo 163 > $(UNEXPORT)
+	sudo echo 164 > $(UNEXPORT)
+	sudo echo 165 > $(UNEXPORT)
+	sudo echo 166 > $(UNEXPORT)
 .PHONY:clean install uninstall
